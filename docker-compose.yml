@@ -1,0 +1,42 @@
+# Compose for Mongo + backend
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:7.0
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: portfolio_db
+    volumes:
+      - mongodb_data:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+    networks:
+      - portfolio-network
+
+  backend:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    environment:
+      - MONGODB_URI=mongodb://admin:password@mongodb:27017/portfolio_db?authSource=admin
+      - DATABASE_NAME=portfolio_db
+      - ENVIRONMENT=development
+    depends_on:
+      - mongodb
+    volumes:
+      - ./app/static:/app/app/static:ro
+      - ./logs:/app/logs
+    networks:
+      - portfolio-network
+
+volumes:
+  mongodb_data:
+
+networks:
+  portfolio-network:
+    driver: bridge
