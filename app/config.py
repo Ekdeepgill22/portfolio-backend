@@ -6,7 +6,7 @@ import os
 
 class Settings(BaseSettings):
     # MongoDB Configuration
-    mongodb_uri: str = "mongodb+srv://mailekdeep:Ekdeep%4013@cluster0.qls6dn5.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+    mongodb_uri: str = "mongodb+srv://mailekdeep:Ekdeep%4013@cluster0.qls6dn5.mongodb.net/portfolio_db?retryWrites=true&w=majority&tls=true"
     database_name: str = "portfolio_db"
     
     # CORS Configuration
