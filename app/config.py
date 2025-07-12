@@ -13,7 +13,7 @@ class Settings(BaseSettings):
     cors_origins: List[str] = [
         "http://localhost:5173",
         "http://localhost:3000",
-        "https://your-portfolio.vercel.app",
+        "https://ekdeepsinghgillportfolio.vercel.app/",
         "*"  # Allow all origins for development
     ]
     
