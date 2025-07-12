@@ -19,7 +19,17 @@ async def connect_to_mongo():
     """Create database connection"""
     logger.info(f"Connecting to MongoDB at URI: {settings.mongodb_uri}, DB: {settings.database_name}")
     try:
-        mongodb.client = AsyncIOMotorClient(settings.mongodb_uri)
+        # Add connection options for better resilience
+        mongodb.client = AsyncIOMotorClient(
+            settings.mongodb_uri,
+            serverSelectionTimeoutMS=30000,  # 30 seconds
+            connectTimeoutMS=20000,  # 20 seconds
+            socketTimeoutMS=20000,  # 20 seconds
+            maxPoolSize=10,
+            minPoolSize=1,
+            retryWrites=True,
+            retryReads=True
+        )
         mongodb.database = mongodb.client[settings.database_name]
         
         # Test the connection
