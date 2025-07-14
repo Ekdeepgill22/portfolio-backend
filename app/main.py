@@ -15,6 +15,7 @@ from app.services.db import connect_to_mongo, close_mongo_connection
 # Import routes
 from app.routes.contact import router as contact_router
 from app.routes.static import router as static_router
+from app.routes.health import router as health_router
 
 # Configure logging
 logging.basicConfig(
@@ -58,6 +59,7 @@ if static_path.exists():
 # Include routers
 app.include_router(contact_router, prefix=settings.api_v1_str, tags=["Contact"])
 app.include_router(static_router, prefix=settings.api_v1_str, tags=["Static Files"])
+app.include_router(health_router, prefix=settings.api_v1_str, tags=["Health"])
 
 # Database event handlers
 @app.on_event("startup")
